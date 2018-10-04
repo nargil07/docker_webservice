@@ -1,0 +1,24 @@
+version: '3'
+services:
+        phpd:
+                build: ./phpd
+                deploy:
+                        replicas: 1
+                networks:
+                - webphp
+                volumes:
+                - ./app:/var/www/app
+        httpd:
+                build: ./httpd
+                deploy:
+                        replicas: 1
+                networks:
+                        - webphp
+                ports:
+                        - "4000:80"
+                volumes:
+                        - ./app:/var/www/app
+                depends_on:
+                  - phpd
+networks:
+        webphp:
